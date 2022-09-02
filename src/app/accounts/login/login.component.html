@@ -3,9 +3,8 @@
     <div class="col-12 col-md-8 col-lg-6 col-xxl-4 py-8 py-xl-0">
       <div class="card smooth-shadow-md">
         <div class="card-body p-6">
-
           <div class="mb-4">
-            <h3 class="mb-2" style="text-align: center;">LOGIN FORM</h3>
+            <h3 class="mb-2" style="text-align: center">LOGIN FORM</h3>
             <!-- <p class="mb-6"></p> -->
           </div>
 
@@ -14,24 +13,59 @@
               <label for="email" class="form-label">Email</label>
               <input
                 formControlName="email"
-                [ngClass]="{'is-invalid': isSubmitted && f.email.errors}"
-                type="email" id="email" class="form-control" name="email" placeholder="Email Address" required>
-              <div *ngIf="isSubmitted && f.email.errors" class="invalid-feedback">
-                <span *ngIf="f.email.errors.required">Email is required</span>
-                <span *ngIf="f.email.errors.email">Email must be a valid email address</span>
+                [ngClass]="{ 'is-invalid': isSubmitted && f['email'].errors }"
+                type="email"
+                id="email"
+                class="form-control"
+                name="email"
+                placeholder="Email Address"
+                required
+              />
+              <div
+                *ngIf="isSubmitted && f['email'].errors"
+                class="invalid-feedback"
+              >
+                <div
+                  *ngIf="f['email'].touched && f['email'].hasError('required')"
+                >
+                  Email is required
+                </div>
+                <div *ngIf="f['email'].hasError('email')">
+                  Email must be a valid email address
+                </div>
               </div>
             </div>
+
             <div class="mb-3 position-relative">
               <label for="password" class="form-label">Password</label>
               <input
                 formControlName="password"
-                [ngClass]="{'is-invalid': isSubmitted && f.password.errors}"
+                [ngClass]="{
+                  'is-invalid': isSubmitted && f['password'].errors
+                }"
                 [attr.type]="passwordVisible == false ? 'password' : 'text'"
-                id="password" class="form-control" name="password" placeholder="Password" required>
-              <div *ngIf="isSubmitted && f.password.errors" class="invalid-feedback">
-                <span *ngIf="f.password.errors.required">Password is required</span>
+                id="password"
+                class="form-control"
+                name="password"
+                placeholder="Password"
+                required
+              />
+              <div
+                *ngIf="isSubmitted && f['password'].errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="f['password'].hasError('required')">
+                  Password is required
+                </div>
+                <div *ngIf="f['password'].hasError('minlength')">
+                  Password must be at least 8 characters
+                </div>
               </div>
-              <a class="eye" (click)="togglePasswordVisibility()" [hidden]="isSubmitted && f.password.errors">
+              <a
+                class="eye"
+                (click)="togglePasswordVisibility()"
+                [hidden]="isSubmitted && f['password'].errors"
+              >
                 <i class="fs-5 bi-eye" *ngIf="passwordVisible"></i>
                 <i class="fs-5 bi-eye-slash" *ngIf="!passwordVisible"></i>
               </a>
@@ -41,11 +75,18 @@
               <div class="d-grid">
                 <button
                   *ngIf="!loadingState"
-                  type="submit" class="btn btn-primary">Login</button>
+                  type="submit"
+                  class="btn btn-primary"
+                >
+                  Login
+                </button>
 
                 <button
                   *ngIf="loadingState"
-                  class="btn btn-primary" type="button" disabled>
+                  class="btn btn-primary"
+                  type="button"
+                  disabled
+                >
                   <span class="spinner-border spinner-border-sm"></span>
                   Logging In...
                 </button>
@@ -57,13 +98,11 @@
                   <a routerLink="/register">Sign Up</a>
                 </div>
                 <div>
-<!--                  <a routerLink="/forgot-password" class="text-inherit">Forgot your password?</a>-->
+                  <!--                  <a routerLink="/forgot-password" class="text-inherit">Forgot your password?</a>-->
                 </div>
               </div>
-
             </div>
           </form>
-
         </div>
       </div>
     </div>

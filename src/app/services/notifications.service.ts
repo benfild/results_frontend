@@ -5,7 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 
 @Injectable({ providedIn: 'root'})
 
-export class NotificationsService {
+export class NotificationService {
   isLoading = new Subject<boolean>();
   error: string = "";
   message: string = "";

@@ -4,15 +4,22 @@ import { catchError, map, tap } from "rxjs/operators";
 import { Subject, throwError } from "rxjs";
 
 import { environment } from "../../environments/environment";
+import { User } from "../models/user.model";
 
 
-export interface UserData {
-  name: string;
-  profile: string;
-  email: string;
-  id: string;
-  role: string;
-  token: string;
+
+export interface RegisterResponseData {
+  status: number,
+  message: string,
+}
+export interface LoginResponseData {
+  status: number,
+  message: string,
+  data: {
+    user: User,
+    token: string,
+    expiresIn: number
+  }
 }
 
 export interface VerifyResponseData {
@@ -23,7 +30,7 @@ export interface VerifyResponseData {
 @Injectable({ providedIn: 'root' })
 
 export class AuthService {
-  user = new Subject<UserData>();
+  user = new Subject<User>();
   isLoading = new Subject<boolean>();
   error: string = "";
   message: string = "";
@@ -31,7 +38,7 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
   register(name: string, email: string, password: string) {
-    return this.http.post<UserData>(`${environment.API_URL}/user/register`, { name, email, password })
+    return this.http.post<RegisterResponseData>(`${environment.API_URL}/user/register`, { name, email, password })
       .pipe(
         catchError(errorRes => {
           this.error = errorRes.error.error;
@@ -43,8 +50,9 @@ export class AuthService {
         }),
       );
   }
+
   login(email: string, password: string) {
-    return this.http.post<UserData>(`${environment.API_URL}/auth/login`, { email, password })
+    return this.http.post<LoginResponseData>(`${environment.API_URL}/auth/login`, { email, password })
       .pipe(
         catchError(errorRes => {
           this.error = errorRes.error.error;
@@ -59,6 +67,7 @@ export class AuthService {
 
   logout() {
     // this.user.next(null);
+    localStorage.removeItem('userData');
   }
 
   getUser() {

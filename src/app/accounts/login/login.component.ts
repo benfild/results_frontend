@@ -1,11 +1,10 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {MustMatch} from "../../helpers/must-match.validator";
-import {Customer} from "../../models/customer.model";
-import {UiService} from "../../services/ui.service";
-import {AuthService} from "../../services/auth.service";
-import {Subscription} from "rxjs";
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import { Subscription } from "rxjs";
+import { ActivatedRoute, Router } from '@angular/router';
 
+import { AuthService } from "../../services/auth.service";
+import { NotificationService } from "../../services/notifications.service";
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -24,9 +23,12 @@ export class LoginComponent implements OnInit, OnDestroy {
 
 
   constructor(
+    private router: Router,
+    private route: ActivatedRoute,
     private formBuilder: FormBuilder,
-    private ui: UiService,
-    private auth: AuthService) { }
+    private auth: AuthService,
+    private notify: NotificationService,
+  ) { }
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
@@ -45,26 +47,25 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     this.isSubmitted = true;
+    this.loadingState = true;
 
     if (this.loginForm?.invalid) {
       return;
     }
 
-    this.subscriptions.push(
-      this.ui.loadingStateChanged
-        .subscribe(
-          loadState => {
-            this.loadingState = loadState;
-          }
-        )
-    );
-
-    const customer: Customer = {
-      'email': this.loginForm.value.email,
-      'password': this.loginForm.value.password
-    }
-
-    this.auth.loginCustomer(customer);
+    this.subscriptions.push(this.auth.login(this.loginForm.value.email, this.loginForm.value.password).subscribe({
+      next: (response) => {
+        this.loadingState = false;
+        this.isSubmitted = false;
+        this.notify.showSuccess(response.message, 'Login');
+        this.router.navigate(['../'], { relativeTo: this.route });
+      },
+      error: (error) => {
+        this.loadingState = false;
+        console.log(error);
+        this.notify.showError(error, 'Error');
+      }
+    }));
 
   }
 
