@@ -1,0 +1,69 @@
+<section style="padding-bottom: 10px">
+  <div style="padding: 10px 4px">
+    <h1 class="font-theme" style="margin-bottom: 0; font-size: 35px; font-weight: 500">Dashboard</h1>
+  </div>
+  <mat-grid-list cols="{{(cardLayout | async)!.columns}}" rowHeight="200px">
+    <!--Mini Cards-->
+    <div class="mini-cards">
+      <a >
+        <mat-grid-tile [colspan]="( cardLayout | async )!.miniCard.cols"
+                       [rowspan]="( cardLayout | async )!.miniCard.rows">
+          <app-dashboard-card title="Total Balance" icon="dollar">
+            <div *ngIf="loadingState">
+              <mat-spinner color="warn"></mat-spinner>
+            </div>
+            <div *ngIf="!loadingState">
+              <h3 class="font-theme" style="margin-bottom: 0; font-size: 40px">'TZS' {{totalBalance}}</h3>
+            </div>
+          </app-dashboard-card>
+        </mat-grid-tile>
+      </a>
+      <a>
+        <mat-grid-tile [colspan]="( cardLayout | async )!.miniCard.cols"
+                       [rowspan]="( cardLayout | async )!.miniCard.rows">
+          <app-dashboard-card title="Primary Account Balance" icon="bi-handbag">
+            <div *ngIf="loadingState">
+              <mat-spinner color="warn"></mat-spinner>
+            </div>
+            <div *ngIf="!loadingState">
+              <h3 class="font-theme" style="margin-bottom: 0; font-size: 40px">'TZS' {{primary}}</h3>
+            </div>
+          </app-dashboard-card>
+        </mat-grid-tile>
+      </a>
+      <a>
+        <mat-grid-tile [colspan]="( cardLayout | async )!.miniCard.cols"
+                       [rowspan]="( cardLayout | async )!.miniCard.rows">
+          <app-dashboard-card title="Agency Account Balance">
+            <div *ngIf="loadingState">
+              <mat-spinner color="warn"></mat-spinner>
+            </div>
+            <div *ngIf="!loadingState">
+              <h3 class="font-theme" style="margin-bottom: 0; font-size: 40px">'TZS' {{agency}}</h3>
+            </div>
+          </app-dashboard-card>
+        </mat-grid-tile>
+      </a>
+      <a >
+        <mat-grid-tile [colspan]="( cardLayout | async )!.miniCard.cols"
+                       [rowspan]="( cardLayout | async )!.miniCard.rows">
+          <app-dashboard-card title="Transfer(s) Performed">
+            <div *ngIf="loadingState">
+              <mat-spinner color="warn"></mat-spinner>
+            </div>
+            <div *ngIf="!loadingState">
+              <h3 class="font-theme" style="margin-bottom: 0; font-size: 40px">{{transfers}}</h3>
+            </div>
+          </app-dashboard-card>
+        </mat-grid-tile>
+      </a>
+    </div>
+    <!--Table-->
+    <!-- <mat-grid-tile [colspan]="( cardLayout | async )!.table.cols"
+                   [rowspan]="( cardLayout | async )!.table.rows">
+      <app-dashboard-card title="Other Account info summary">
+        <div>Table Content Here</div>
+      </app-dashboard-card>
+    </mat-grid-tile> -->
+  </mat-grid-list>
+</section>
