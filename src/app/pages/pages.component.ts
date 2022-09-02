@@ -6,11 +6,11 @@ import {Observable} from "rxjs";
 import {map, shareReplay} from "rxjs/operators";
 
 @Component({
-  selector: 'app-secure',
-  templateUrl: './secure.component.html',
-  styleUrls: ['./secure.component.css']
+  selector: 'app-pages',
+  templateUrl: './pages.component.html',
+  styleUrls: ['./pages.component.css']
 })
-export class SecureComponent implements OnInit {
+export class PagesComponent implements OnInit {
 
   sidebarActivated = false;
   clickEvent: any;

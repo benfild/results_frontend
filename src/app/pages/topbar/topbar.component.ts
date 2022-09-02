@@ -3,11 +3,11 @@ import {AuthService} from "../../services/auth.service";
 import {Subscription} from "rxjs";
 
 @Component({
-  selector: 'app-secure-topbar',
-  templateUrl: './secure-topbar.component.html',
-  styleUrls: ['./secure-topbar.component.css']
+  selector: 'app-topbar',
+  templateUrl: './topbar.component.html',
+  styleUrls: ['./topbar.component.css']
 })
-export class SecureTopbarComponent implements OnInit, OnDestroy {
+export class TopbarComponent implements OnInit, OnDestroy {
 
   username = '';
   subscriptions: Subscription[] = []
@@ -25,6 +25,6 @@ export class SecureTopbarComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach(subscription => subscription.unsubscribe())
   }
   logout(): void{
-    this.auth.logoutCustomer();
+    this.auth.logout();
   }
 }

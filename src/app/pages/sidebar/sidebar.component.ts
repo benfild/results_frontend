@@ -1,11 +1,11 @@
 import {Component, OnInit, Output, EventEmitter} from '@angular/core';
 
 @Component({
-  selector: 'app-secure-sidebar',
-  templateUrl: './secure-sidebar.component.html',
-  styleUrls: ['./secure-sidebar.component.css']
+  selector: 'app-sidebar',
+  templateUrl: './sidebar.component.html',
+  styleUrls: ['./sidebar.component.css']
 })
-export class SecureSidebarComponent implements OnInit {
+export class SidebarComponent implements OnInit {
 
   @Output() closeSideNav = new EventEmitter();
 
